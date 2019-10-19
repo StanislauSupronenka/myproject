@@ -1,0 +1,44 @@
+{% extends "home_page.html" %}
+
+{% block title %}My deals{% endblock %}
+{% block navbar %}
+<ul>
+  <li><a href="/rates"><i class="fas fa-eur" aria-hidden="true"></i>Rates</a></li>
+  <li><a href="/create">Buy</a></li>
+  <li><a class="active" href="/deals">My deals</a></li>
+  <li><a href="/stats">Statistic</a></li>
+  <li><a href="/chat">Messages</a></li>
+  <li class="exit"><a href="/logout">Log out</a></li>
+</ul>
+{% endblock %}
+{% block content %}
+
+{% for deal in deals %}
+<button class="accordion">{{deal.date}}</button>
+<div class="panel">
+    <div class = "Name">Currency code: {{deal.currency_code}}</div>
+    <div class = "Name">Currency rate: {{deal.currency_rate}}</div>
+    <div class = "Name">Write-off account: {{deal.write_off_account}}</div>
+    <div class = "Name">Income account: {{deal.income_account}}</div>
+    <div class = "Name">Amount: {{deal.amount}}</div>
+    <div class = "Name">Status: {{deal.status}}</div>
+    </div>
+
+{% endfor %}
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    }
+  });
+}
+</script>
+
+{% endblock %}

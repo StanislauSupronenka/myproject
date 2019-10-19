@@ -1,0 +1,15 @@
+{% extends "main_login_form.html" %}
+
+{% block title %}Registration{% endblock %}
+
+{% block header %}Registration{% endblock %}
+
+{% block content %}
+
+<form method="POST" action="/registration">
+            {% csrf_token %}
+
+            {{ form }}
+     <input type="submit" name="" value="Registration">
+</form>
+{% endblock %}

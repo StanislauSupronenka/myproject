@@ -1,0 +1,16 @@
+{% extends "main_login_form.html" %}
+
+{% block title %}Purchase{% endblock %}
+
+{% block header %}Purchase{% endblock %}
+
+{% block content %}
+
+<form method="POST" action="/create">
+            {% csrf_token %}
+
+            {{ form }}
+     <input type="submit" name="" value="Send">
+     <a href="/rates">Back</a>
+</form>
+{% endblock %}

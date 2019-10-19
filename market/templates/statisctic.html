@@ -1,0 +1,85 @@
+{% extends "home_page.html" %}
+
+{% block title %}Statistic{% endblock %}
+{% block navbar %}
+<ul>
+  <li><a  href="/rates"><i class="fas fa-eur" aria-hidden="true"></i>Rates</a></li>
+  <li><a href="/create">Buy</a></li>
+  <li><a  href="/deals">My deals</a></li>
+  <li><a class="active" href="/stats">Statistic</a></li>
+  <li><a href="/chat">Messages</a></li>
+  <li class="exit"><a href="/logout">Log out</a></li>
+</ul>
+{% endblock %}
+{% block content %}
+
+<div class = "Chart">
+<canvas id="pie-chart" width="200" height="200"></canvas>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+<script>
+new Chart(document.getElementById("pie-chart"), {
+    type: 'pie',
+    data: {
+      labels: ["PLN", "RUB", "EUR", "UAH", "USD"],
+      datasets: [{
+        label: "Population (millions)",
+        backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+        data: [{{PLN|length}},{{RUB|length}},{{EUR|length}},{{UAH|length}},{{USD|length}}]
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Number of deals by currency'
+      }
+    }
+});
+</script>
+</div>
+<div class = "Chart">
+<canvas id="line-chart" width="200" height="200"></canvas>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+<script>
+new Chart(document.getElementById("line-chart"), {
+  type: 'line',
+  data: {
+    labels: [],
+    datasets: [{
+        data: [{% for cur in PLN %} {{ cur.currency_rate }}, {% endfor %}],
+        label: "PLN",
+        borderColor: "#3e95cd",
+        fill: false
+      }, {
+        data: [{% for cur in USD %} {{ cur.currency_rate  }}, {% endfor %}],
+        label: "USD",
+        borderColor: "#8e5ea2",
+        fill: false
+      }, {
+        data: [{% for cur in EUR %} {{ cur.currency_rate  }}, {% endfor %}],
+        label: "EUR",
+        borderColor: "#3cba9f",
+        fill: false
+      }, {
+        data: [{% for cur in RUB %} {{ cur.currency_rate  }}, {% endfor %}],
+        label: "RUB",
+        borderColor: "#e8c3b9",
+        fill: false
+      }, {
+        data: [{% for cur in UAH %} {{ cur.currency_rate  }}, {% endfor %}],
+        label: " UAH",
+        borderColor: "#c45850",
+        fill: false
+      }
+    ]
+  },
+  options: {
+    title: {
+      display: true,
+      text: 'The dynamics of the rates of my transactions'
+    }
+  }
+});
+</script>
+</div>
+{% endblock %}

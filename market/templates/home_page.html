@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<link href="{% static 'css/home.css' %}" rel="stylesheet" type="text/css"/>
+<link href="https://fonts.googleapis.com/css?family=Orbitron" rel="stylesheet" type="text/css"/>   
+<link href="{% static 'css/cl.css' %}" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'css/form.css' %}">
+<script src="https://kit.fontawesome.com/b99e675b6e.js"></script> 	
+<title>{% block title %}Rates{% endblock %}</title>
+</head>
+<body>
+{% block navbar %}
+<ul>
+  <li><a class="active" href="/rates"><i class="fas fa-eur" aria-hidden="true"></i>Rates</a></li>
+  <li><a href="/create">Buy</a></li>
+  <li><a href="/deals">My deals</a></li>
+  <li><a href="/stats">Statistic</a></li>
+  <li><a href="/chat">Messages</a></li>
+  <li class="exit"><a href="/logout">Log out</a></li>
+</ul>
+{% endblock %}
+
+<div style="margin-left:300px;padding:1px 16px;">
+<header>
+    <div class="column">
+        USD <div id="USD">00,00 руб.</div>
+    </div>
+    <div class="column">
+        EUR <div id="EUR">00,00 руб.</div>
+    </div>
+    <div class="column">
+        RUB <div id="RUB">00,00 руб.</div>
+    </div>
+
+    <div class = 'column'>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+$(function () {
+    $.getJSON('http://www.nbrb.by/API/ExRates/Rates?Periodicity=0', function(data) {
+        for (var i = 0; i < data.length; i++) {
+            var obj = data[i];
+            var el = document.getElementById(obj.Cur_Abbreviation);
+            if (el) {
+                el.innerHTML = el.innerHTML.replace('00,00', obj.Cur_OfficialRate);
+            }
+        }
+    }).fail( function(d, textStatus, error) {
+           console.error("Request failed, status: " + textStatus + ", error: " + error)
+    });
+
+});
+</script>
+<body onload="digitized();">
+    <div style="
+        width:180px;margin:0 auto; float: right;">
+
+        <table class="tabBlock" align="center" cellspacing="0" cellpadding="0" border="0">
+            <tr><td class="clock" id="dc"></td>
+                <td>
+                    <table cellpadding="0" cellspacing="0" border="0">
+                        <tr><td class="clocklg" id="dc_hour"></td></tr>
+                        <tr><td class="clocklg" id="dc_second"></td></tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+    </div>
+
+<script src="{% static 'js/cl.js' %}">
+    
+</script>
+</header>
+</div>
+<div class="content">
+{% block content %}
+{% endblock %}
+</div>
+
+</body>
+</html>
